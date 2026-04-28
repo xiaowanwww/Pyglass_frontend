@@ -50,8 +50,8 @@
             <q-btn
               color="secondary"
               flat
-              label="进入结果页"
-              :to="{ name: 'rdf_result_v2' }"
+              label="回到主页"
+              :to="{ name: 'home' }"
             />
           </div>
         </div>

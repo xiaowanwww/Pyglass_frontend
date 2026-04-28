@@ -4,6 +4,7 @@
       <q-toolbar>
         <q-toolbar-title>RDF 工作流</q-toolbar-title>
       </q-toolbar>
+      <AppTopNav />
     </q-header>
 
     <q-page-container>
@@ -13,6 +14,8 @@
 </template>
 
 <script setup>
+import AppTopNav from "components/AppTopNav.vue";
+
 defineOptions({
   name: "WorkflowLayout",
 });

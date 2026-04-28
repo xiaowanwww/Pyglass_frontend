@@ -4,6 +4,11 @@ const routes = [
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
+        path: "",
+        name: "home",
+        component: () => import("pages/IndexPage.vue"),
+      },
+      {
         path: "workspace/rdf",
         component: () => import("layouts/WorkflowLayout.vue"),
         children: [
@@ -45,7 +50,7 @@ const routes = [
         ],
       },
       {
-        path: "",
+        path: "view",
         name: "view_dm4",
         component: () => import("pages/ViewDM4.vue"),
       },
