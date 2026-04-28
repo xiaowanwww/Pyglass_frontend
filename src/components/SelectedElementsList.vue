@@ -1,62 +1,78 @@
 <template>
-  <div class="q-pa-md">
-    <div class="row q-col-gutter-md">
-      <div class="col-4">
-        <q-scroll-area style="height: 300px">
-          <q-list v-if="localSelectedElements.length > 0" bordered separator>
-            <q-item-label header>Selected Elements</q-item-label>
-            <q-item
-              v-for="(element, index) in localSelectedElements"
-              :key="element.symbol"
-            >
-              <q-item-section>
-                <q-item-label>{{ element.symbol }}</q-item-label>
-              </q-item-section>
-              <q-item-section side>
-                <q-input
-                  v-model.number="element.quantity"
-                  type="number"
-                  min="0"
-                  @update:model-value="updateQuantity(index, $event)"
-                  style="width: 100px"
-                  dense
-                />
-              </q-item-section>
-            </q-item>
-          </q-list>
-          <div v-else>
-            <p>No elements selected.</p>
-          </div>
-        </q-scroll-area>
-        <q-btn
-          label="Save"
-          color="primary"
-          @click="saveElements"
-          class="q-mt-md"
-          v-if="localSelectedElements.length > 0"
-        />
+  <div class="selected-elements-panel">
+    <div class="panel-header">
+      <div>
+        <div class="text-subtitle1 text-weight-medium">已选择的元素</div>
+        <div class="text-caption" :class="statusClass">{{ statusText }}</div>
       </div>
 
-      <!-- 显示计算结果的表格 -->
-      <div class="col-8">
-        <q-table
-          :rows="elementsWithPercentage"
-          :columns="columns"
-          row-key="symbol"
-          rows-per-page-options="0"
-          virtual-scroll
-          style="height: 300px"
+      <div v-if="localSelectedElements.length > 0" class="header-actions">
+        <q-btn
+          label="重新选择元素"
+          icon="refresh"
+          color="primary"
+          outline
+          @click="emit('clear-elements')"
+        />
+        <q-btn
+          label="保存元素占比"
+          icon="save"
+          color="positive"
+          unelevated
+          :disable="!canSave"
+          @click="saveElements"
         />
       </div>
     </div>
+
+    <q-scroll-area class="selected-scroll">
+      <q-list v-if="localSelectedElements.length > 0" bordered separator>
+        <q-item
+          v-for="(element, index) in localSelectedElements"
+          :key="element.symbol"
+        >
+          <q-item-section>
+            <q-item-label>{{ element.symbol }}</q-item-label>
+            <q-item-label caption>{{ element.name }}</q-item-label>
+          </q-item-section>
+          <q-item-section side>
+            <q-input
+              v-model.number="element.quantity"
+              type="number"
+              min="0"
+              @update:model-value="updateQuantity(index, $event)"
+              style="width: 100px"
+              dense
+              outlined
+            />
+          </q-item-section>
+        </q-item>
+      </q-list>
+      <div v-else class="empty-state text-grey-5">
+        No elements selected.
+      </div>
+    </q-scroll-area>
+
+    <q-table
+      :rows="elementsWithPercentage"
+      :columns="columns"
+      row-key="symbol"
+      :rows-per-page-options="[0]"
+      virtual-scroll
+      dense
+      flat
+      bordered
+      class="q-mt-md percentage-table"
+    />
   </div>
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { socketRDF } from "boot/socketio";
 
-const socket = socketRDF
+const socket = socketRDF;
+const emit = defineEmits(["clear-elements"]);
 const props = defineProps({
   selectedElements: {
     type: Array,
@@ -64,8 +80,16 @@ const props = defineProps({
   },
 });
 
-const localSelectedElements = ref([...props.selectedElements]);
+const normalizeElement = (element, existingElement) => ({
+  ...element,
+  quantity: existingElement?.quantity ?? element.quantity ?? 1,
+});
+
+const localSelectedElements = ref(
+  props.selectedElements.map((element) => normalizeElement(element))
+);
 const elementsWithPercentage = ref([]);
+const saveState = ref("idle");
 
 const columns = [
   { name: "symbol", label: "Element", field: "symbol", align: "left" },
@@ -78,18 +102,58 @@ const columns = [
   },
 ];
 
+const totalQuantity = computed(() =>
+  localSelectedElements.value.reduce(
+    (sum, element) => sum + (Number(element.quantity) || 0),
+    0
+  )
+);
+
+const hasInvalidQuantity = computed(() =>
+  localSelectedElements.value.some((element) => {
+    const quantity = Number(element.quantity);
+    return !Number.isFinite(quantity) || quantity < 0;
+  })
+);
+
+const canSave = computed(
+  () =>
+    localSelectedElements.value.length > 0 &&
+    totalQuantity.value > 0 &&
+    !hasInvalidQuantity.value
+);
+
+const statusText = computed(() => {
+  if (localSelectedElements.value.length === 0) {
+    return "请选择元素";
+  }
+
+  if (!canSave.value) {
+    return "请输入有效数量";
+  }
+
+  return saveState.value === "saved" ? "已保存" : "未保存";
+});
+
+const statusClass = computed(() => ({
+  "text-positive": saveState.value === "saved" && canSave.value,
+  "text-warning": saveState.value !== "saved" && canSave.value,
+  "text-negative": localSelectedElements.value.length > 0 && !canSave.value,
+}));
+
 const updateQuantity = (index, newQuantity) => {
   localSelectedElements.value[index].quantity = newQuantity;
+  saveState.value = "dirty";
 };
 
 const saveElements = () => {
-  const totalQuantity = localSelectedElements.value.reduce(
-    (sum, element) => sum + element.quantity,
-    0
-  );
+  if (!canSave.value) {
+    return;
+  }
+
   elementsWithPercentage.value = localSelectedElements.value.map((element) => ({
     ...element,
-    percentage: element.quantity / totalQuantity,
+    percentage: Number(element.quantity) / totalQuantity.value,
   }));
 
   const selectedFields = elementsWithPercentage.value.map((element) => ({
@@ -98,6 +162,7 @@ const saveElements = () => {
     percentage: element.percentage,
   }));
   socket.emit("select_elements", selectedFields);
+  saveState.value = "saved";
   console.log("Elements with percentage:", elementsWithPercentage.value);
 };
 
@@ -105,18 +170,65 @@ const saveElements = () => {
 watch(
   () => props.selectedElements,
   (newSelectedElements) => {
-    localSelectedElements.value = [...newSelectedElements];
+    localSelectedElements.value = newSelectedElements.map((element) => {
+      const existingElement = localSelectedElements.value.find(
+        (localElement) => localElement.symbol === element.symbol
+      );
+      return normalizeElement(element, existingElement);
+    });
+
+    if (newSelectedElements.length === 0) {
+      elementsWithPercentage.value = [];
+      saveState.value = "idle";
+      return;
+    }
+
+    saveState.value = "dirty";
   },
   { deep: true }
 );
 </script>
 
 <style scoped>
-.compact-list {
-  padding: 0;
+.selected-elements-panel {
+  min-height: 100%;
+  padding: 16px;
+  border: 1px solid rgba(110, 126, 154, 0.35);
+  border-radius: 8px;
+  background: rgba(16, 20, 31, 0.72);
 }
 
-.compact-item {
-  padding: 4px 8px;
+.panel-header {
+  min-height: 40px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.selected-scroll {
+  height: 260px;
+}
+
+.empty-state {
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed rgba(110, 126, 154, 0.35);
+  border-radius: 8px;
+}
+
+.percentage-table {
+  height: 260px;
 }
 </style>

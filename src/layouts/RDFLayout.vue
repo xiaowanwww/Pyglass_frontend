@@ -1,21 +1,14 @@
 <template>
-  <q-layout view="hHh lpr lFf">
-    <q-header>
-      <AppTopNav />
-    </q-header>
-    <q-page-container>
-      <router-view v-slot="{ Component }">
-        <keep-alive>
-          <component :is="Component" />
-        </keep-alive>
-      </router-view>
-    </q-page-container>
-  </q-layout>
+  <div>
+    <q-toolbar class="bg-grey-10 text-white">
+      <q-toolbar-title>RDF 工作流</q-toolbar-title>
+    </q-toolbar>
+
+    <router-view />
+  </div>
 </template>
 
 <script setup>
-import AppTopNav from "components/AppTopNav.vue";
-
 defineOptions({
   name: "RDFLayout",
 });

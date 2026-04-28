@@ -9,43 +9,13 @@ const routes = [
         component: () => import("pages/IndexPage.vue"),
       },
       {
-        path: "workspace/rdf",
-        component: () => import("layouts/WorkflowLayout.vue"),
-        children: [
-          {
-            path: "",
-            redirect: { name: "rdf_workflow_v2" },
-          },
-          {
-            path: "workflow",
-            name: "rdf_workflow_v2",
-            component: () => import("src/modules/rdf/pages/RdfWorkflowPage.vue"),
-          },
-        ],
-      },
-      {
         path: "rdf",
-        name: "rdf",
         component: () => import("layouts/RDFLayout.vue"),
         children: [
           {
             path: "",
-            redirect: { name: "rdf_workflow_v2" },
-          },
-          {
-            path: "table",
-            name: "table",
-            component: () => import("pages/RDF_table.vue"),
-          },
-          {
-            path: "2",
-            name: "2",
-            component: () => import("pages/RDF_plot.vue"),
-          },
-          {
-            path: "RDF_sel",
-            name: "RDF_sel",
-            component: () => import("pages/RDF_sel.vue"),
+            name: "rdf_workflow_v2",
+            component: () => import("src/modules/rdf/pages/RdfWorkflowPage.vue"),
           },
         ],
       },
@@ -71,80 +41,17 @@ const routes = [
           },
         ],
       },
-    ],
-  },
-  {
-    path: "/acom",
-    name: "ACOM",
-    component: () => import("layouts/ACOMLayout.vue"),
-    children: [
       {
-        path: "",
-        name: "Select_Area",
-        component: () => import("pages/ACOM/Select_Area.vue"),
-      },
-      {
-        path: "View_Area",
-        name: "View_Area",
-        component: () => import("pages/ACOM/View_Area.vue"),
-      },
-      {
-        path: "Set_Probe",
-        name: "Set_Probe",
-        component: () => import("pages/ACOM/Set_Probe.vue"),
-      },
-      {
-        path: "Detect_Bragg_Disks",
-        name: "Detect_Bragg_Disks",
-        component: () => import("pages/ACOM/Detect_Bragg_Disks.vue"),
-      },
-      {
-        path: "Calibrate_Center",
-        name: "Calibrate_Center",
-        component: () => import("pages/ACOM/Calibrate_Center.vue"),
-      },
-      {
-        path: "Calibrate_Ellipticity",
-        name: "Calibrate_Ellipticity",
-        component: () => import("pages/ACOM/Calibrate_Ellipticity.vue"),
-      },
-      {
-        path: "Calibrate_Pixel_Size",
-        name: "Calibrate_Pixel_Size",
-        component: () => import("pages/ACOM/Calibrate_Pixel_Size.vue"),
-      },
-      {
-        path: "Calculate_ACOM",
-        name: "Calculate_ACOM",
-        component: () => import("pages/ACOM/Calculate_ACOM.vue"),
-      }
-
-    ]
-
-  },
-  {
-    path: "/sim",
-    name: "SIM",
-    component: () => import("layouts/DiffSimLayout.vue"),
-    children: [
-      {
-        path: "",
+        path: "sim",
         name: "DiffSim",
         component: () => import("pages/DiffSim/DiffSim.vue"),
       },
-    ]
-  },
-  {
-    path: "/xem",
-    name: "ACOM VIEWER",
-    component: () => import("layouts/AcomViewerLayout.vue"),
-    children: [
       {
-        path: "",
+        path: "xem",
         name: "AcomViewer",
         component: () => import("pages/ACOM_XEM/ACOM_Viewer.vue"),
       },
-    ]
+    ],
   },
 
   // Always leave this as last one,

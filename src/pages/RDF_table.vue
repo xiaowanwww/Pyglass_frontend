@@ -1,51 +1,51 @@
 <template>
-  <div class="q-pa-md">
-    <div
-      v-for="(row, rowIndex) in periodicTableRows"
-      :key="rowIndex"
-      class="row q-gutter-y justify-center"
-      :style="{
-        marginBottom: rowIndex === 6 ? '10px' : '0',
-      }"
-    >
-      <q-btn-group square>
-        <q-btn
-          v-for="element in row"
-          :key="element.symbol"
-          :label="element.symbol"
-          :color="isSelected(element) ? 'dark' : getColor(element.category)"
-          class="periodic-element"
-          :transparent="element.atomicNumber === 0"
-          :style="{ width: getWidth(element.category), height: '40px' }"
-          :flat="element.atomicNumber === 0"
-          :disable="element.atomicNumber === 0"
-          @click="addElement(element)"
-        >
-          <q-tooltip v-if="element.atomicNumber !== 0">
-            <strong>{{ element.name }}</strong> ({{
-              element.atomicNumber
-            }})<br />
-            {{ element.category }}
-          </q-tooltip>
-        </q-btn>
-      </q-btn-group>
+  <div class="q-pa-md element-workspace">
+    <div class="periodic-table-panel">
+      <div
+        v-for="(row, rowIndex) in periodicTableRows"
+        :key="rowIndex"
+        class="row q-gutter-y justify-center no-wrap"
+        :style="{
+          marginBottom: rowIndex === 6 ? '10px' : '0',
+        }"
+      >
+        <q-btn-group square>
+          <q-btn
+            v-for="element in row"
+            :key="element.symbol"
+            :label="element.symbol"
+            :color="isSelected(element) ? 'dark' : getColor(element.category)"
+            class="periodic-element"
+            :transparent="element.atomicNumber === 0"
+            :style="{ width: getWidth(element.category), height: '34px' }"
+            :flat="element.atomicNumber === 0"
+            :disable="element.atomicNumber === 0"
+            @click="addElement(element)"
+          >
+            <q-tooltip v-if="element.atomicNumber !== 0">
+              <strong>{{ element.name }}</strong> ({{
+                element.atomicNumber
+              }})<br />
+              {{ element.category }}
+            </q-tooltip>
+          </q-btn>
+        </q-btn-group>
+      </div>
+
     </div>
 
-    <q-btn
-      label="clear"
-      color="primary"
-      class="full-width q-mt-sm"
-      @click="clearElements"
+    <SelectedElementsList
+      :selectedElements="selectedElements"
+      class="selected-panel"
+      @clear-elements="clearElements"
     />
-
-    <SelectedElementsList :selectedElements="selectedElements" />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import { periodicTableRows } from "assets/periodicData";
-import SelectedElementsList from "components/SelectedElementsList.vue"; // 引入新组件
+import SelectedElementsList from "components/SelectedElementsList.vue";
 
 const selectedElements = ref([]);
 
@@ -77,7 +77,7 @@ const getColor = (category) => {
 };
 
 const getWidth = (category) => {
-  return "50px";
+  return "42px";
 };
 
 const addElement = (element) => {
@@ -86,10 +86,8 @@ const addElement = (element) => {
   );
 
   if (existingIndex === -1) {
-    // 如果元素不存在，添加到数组中
-    selectedElements.value.push(element);
+    selectedElements.value.push({ ...element, quantity: 1 });
   } else {
-    // 如果元素已存在，从数组中移除
     selectedElements.value.splice(existingIndex, 1);
   }
   console.log(selectedElements.value);
@@ -102,12 +100,34 @@ const isSelected = (element) => {
 const clearElements = () => {
   selectedElements.value = [];
 };
-// 保存元素占比
 </script>
 
 <style scoped>
 .periodic-element {
   text-transform: none;
-  font-size: 16px;
+  font-size: 13px;
+  padding: 0;
+}
+
+.element-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, max-content) minmax(360px, 1fr);
+  gap: 16px;
+  align-items: start;
+  overflow-x: auto;
+}
+
+.periodic-table-panel {
+  min-width: 0;
+}
+
+.selected-panel {
+  min-width: 360px;
+}
+
+@media (max-width: 1200px) {
+  .element-workspace {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
