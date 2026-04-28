@@ -9,22 +9,12 @@ const routes = [
         children: [
           {
             path: "",
-            redirect: { name: "rdf_overview_v2" },
-          },
-          {
-            path: "overview",
-            name: "rdf_overview_v2",
-            component: () => import("src/modules/rdf/pages/RdfOverviewPage.vue"),
+            redirect: { name: "rdf_workflow_v2" },
           },
           {
             path: "workflow",
             name: "rdf_workflow_v2",
             component: () => import("src/modules/rdf/pages/RdfWorkflowPage.vue"),
-          },
-          {
-            path: "result",
-            name: "rdf_result_v2",
-            component: () => import("src/modules/rdf/pages/RdfResultPage.vue"),
           },
         ],
       },
