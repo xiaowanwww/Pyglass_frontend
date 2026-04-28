@@ -1,10 +1,10 @@
 <template>
   <q-layout view="hHh lpr lFf">
     <q-header class="bg-black text-white">
+      <AppTopNav />
       <q-toolbar>
         <q-toolbar-title>RDF 工作流</q-toolbar-title>
       </q-toolbar>
-      <AppTopNav />
     </q-header>
 
     <q-page-container>

@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh lpr lFf">
-    <q-header class="bg-black text-white shadow-2">
+    <q-header v-if="!hideTopNav" class="bg-black text-white shadow-2">
       <AppTopNav />
     </q-header>
 
@@ -15,7 +15,12 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
+import { useRoute } from "vue-router";
 import AppTopNav from "components/AppTopNav.vue";
+
+const route = useRoute();
+const hideTopNav = computed(() => route.path.startsWith("/workspace/rdf"));
 
 defineOptions({
   name: "MainLayout",
