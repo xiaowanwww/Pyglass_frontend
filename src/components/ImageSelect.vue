@@ -1,7 +1,7 @@
 <template>
   <div class="image-adjustment-container">
     <div ref="container" class="canvas-container"></div>
-    <q-btn label="Reset Selection" @click="resetSelection" />
+    <q-btn label="重置选择 Reset Selection" @click="resetSelection" />
   </div>
 </template>
 

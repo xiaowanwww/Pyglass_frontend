@@ -88,7 +88,7 @@
             class="full-width q-mb-md"
             color="primary"
             @click="doMatching"
-            >Index
+            >Do Matching
           </q-btn>
           <q-btn
             no-caps

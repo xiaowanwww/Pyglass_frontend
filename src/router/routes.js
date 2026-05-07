@@ -25,6 +25,12 @@ const routes = [
         component: () => import("pages/ViewDM4.vue"),
       },
       {
+        path: "acom-workflow",
+        name: "acom_workflow",
+        component: () =>
+          import("src/modules/acom/pages/AcomWorkflowPage.vue"),
+      },
+      {
         path: "calibration",
         name: "calibration",
         component: () => import("layouts/CalibrationLayout.vue"),
