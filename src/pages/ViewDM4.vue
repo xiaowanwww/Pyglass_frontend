@@ -265,7 +265,7 @@ onMounted(() => {
         timeout: 1000,
       });
       indexRange.value = data.index_range - 1;
-      socket.emit("set_index", rightImageIndex.value);
+      socket.emit("set_index", { index: rightImageIndex.value });
       socketRDF.emit("load_image_rdf", true);
     }
   });

@@ -150,7 +150,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
-import { socketRDF } from "boot/socketio";
+import { socketViewer, socketRDF } from "boot/socketio";
 import { useQuasar } from "quasar";
 import RDFSelect from "components/RDFSelect.vue";
 
@@ -169,7 +169,7 @@ const rightImageIndex = ref(0);
 const indexRange = ref(0);
 const update_bin_mask = "update_bin_mask";
 const update_virtual_mask = "update_virtual_mask";
-const socket = socketRDF;
+const socket = socketViewer;
 const log_scale = ref(false);
 const imageSeries = ref([]);
 const isDrawingEnabled = ref(false);
@@ -237,49 +237,62 @@ const changeRightImage = () => {
   });
 };
 
+const handleRightImageResponse = (data) => {
+  if (data.error) {
+    console.error(data.error);
+  } else {
+    console.log("Image Response Received");
+    RightimageData.value = data.image_data;
+  }
+};
+
+const handleLeftImageResponse = (data) => {
+  if (data.error) {
+    console.error(data.error);
+  } else {
+    console.log("Image Response Received");
+    LeftimageData.value = data.image_data;
+  }
+};
+
+const handleFileNameResponse = (data) => {
+  console.log(data);
+  if (data.success) {
+    $q.loading.hide();
+    $q.notify({
+      message: "DM4 Successfully Loaded",
+      color: "primary",
+      icon: "cloud_done",
+      position: "center",
+      timeout: 1000,
+    });
+    indexRange.value = data.index_range - 1;
+    socket.emit("set_index", { index: rightImageIndex.value });
+    socketRDF.emit("load_image_rdf", true);
+  }
+};
+
+const handleImageSeriesResponse = (data) => {
+  if (data.error) {
+    console.error(data.error);
+  } else {
+    console.log("Image Series Response Received");
+    imageSeries.value = data.image_series;
+  }
+};
+
 onMounted(() => {
-  socket.on("right_image_response", (data) => {
-    if (data.error) {
-      console.error(data.error);
-    } else {
-      console.log("Image Response Received");
-      RightimageData.value = data.image_data;
-    }
-  });
-  socket.on("left_image_response", (data) => {
-    if (data.error) {
-      console.error(data.error);
-    } else {
-      console.log("Image Response Received");
-      LeftimageData.value = data.image_data;
-    }
-  });
+  socket.on("right_image_response", handleRightImageResponse);
+  socket.on("left_image_response", handleLeftImageResponse);
+  socket.on("file_name_response", handleFileNameResponse);
+  socket.on("image_series_response", handleImageSeriesResponse);
+});
 
-  socket.on("file_name_response", (data) => {
-    console.log(data);
-    if (data.success) {
-      $q.loading.hide();
-      $q.notify({
-        message: "DM4 Successfully Loaded",
-        color: "primary",
-        icon: "cloud_done",
-        position: "center",
-        timeout: 1000,
-      });
-      indexRange.value = data.index_range - 1;
-      socket.emit("set_index", rightImageIndex.value);
-      socketRDF.emit("load_image_rdf", true);
-    }
-  });
-
-  socket.on("image_series_response", (data) => {
-    if (data.error) {
-      console.error(data.error);
-    } else {
-      console.log("Image Series Response Received");
-      imageSeries.value = data.image_series;
-    }
-  });
+onUnmounted(() => {
+  socket.off("right_image_response", handleRightImageResponse);
+  socket.off("left_image_response", handleLeftImageResponse);
+  socket.off("file_name_response", handleFileNameResponse);
+  socket.off("image_series_response", handleImageSeriesResponse);
 });
 </script>
 
