@@ -1,52 +1,67 @@
 <template>
   <q-page class="q-pa-md">
-    <div class="row">
-      <div class="col-2" style="height: 100%; overflow-y: auto">
-        <q-card class="full-height column">
-          <q-btn class="full-width q-mb-md" color="primary" @click="openData">
-            <span v-if="selectedData">Selected Data: {{ selectedData }}</span>
-            <span v-else>Import Data</span>
-          </q-btn>
-          <q-btn
-            class="full-width q-mb-md"
-            color="primary"
-            @click="openResults"
-          >
-            <span v-if="selectedResults"
-              >Selected Results: {{ selectedResults }}</span
+    <div class="row q-col-gutter-md acom-viewer-workspace">
+      <div class="col-3 controls-column">
+        <q-card class="sidebar">
+          <q-card-section>
+            <div class="section-title">数据来源 Data Sources</div>
+            <q-btn
+              no-caps
+              class="full-width q-mb-sm"
+              color="primary"
+              @click="openData"
             >
-            <span v-else>Import Results</span>
-          </q-btn>
-          <q-btn
-            class="full-width q-mb-md"
-            color="primary"
-            @click="openSimulations"
-          >
-            <span v-if="selectedSimulations"
-              >Selected Simulations: {{ selectedSimulations }}</span
+              <span v-if="selectedData">已选择 Selected: {{ selectedData }}</span>
+              <span v-else>使用当前实验数据 Use Loaded Data</span>
+            </q-btn>
+            <q-btn
+              no-caps
+              class="full-width q-mb-sm"
+              color="primary"
+              @click="openResults"
             >
-            <span v-else>Import Simulations</span>
-          </q-btn>
-          <q-select
-            filled
-            v-model="symmetry"
-            :options="symmetry_options"
-            label="Symmetry"
-          />
-          <q-select
-            filled
-            v-model="direction"
-            :options="direction_options"
-            label="Projection Direction"
-          />
-          <q-input
-            v-model.number="threshold"
-            type="number"
-            filled
-            label="Threshold"
-          />
-          <q-list bordered separator class="full-height">
-            <!-- Left Image Sliders -->
+              <span v-if="selectedResults"
+                >已选择结果 Selected Results: {{ selectedResults }}</span
+              >
+              <span v-else>导入匹配结果 Import Results</span>
+            </q-btn>
+            <q-btn
+              no-caps
+              class="full-width q-mb-sm"
+              color="primary"
+              @click="openSimulations"
+            >
+              <span v-if="selectedSimulations"
+                >已选择模拟库 Selected Simulations: {{ selectedSimulations }}</span
+              >
+              <span v-else>导入模拟库 Import Simulations</span>
+            </q-btn>
+
+            <q-separator class="q-my-md" />
+
+            <div class="section-title">取向图设置 IPF Settings</div>
+            <q-select
+              filled
+              v-model="symmetry"
+              :options="symmetry_options"
+              label="对称性 Symmetry"
+            />
+            <q-select
+              filled
+              v-model="direction"
+              :options="direction_options"
+              label="投影方向 Projection Direction"
+            />
+            <q-input
+              v-model.number="threshold"
+              type="number"
+              filled
+              label="相关性阈值 Correlation Threshold"
+            />
+
+            <q-separator class="q-my-md" />
+
+            <div class="section-title">图像调整 Image Adjustments</div>
             <q-item>
               <q-item-section>
                 <q-item-label overline>Gamma</q-item-label>
@@ -61,7 +76,7 @@
             </q-item>
             <q-item>
               <q-item-section>
-                <q-item-label overline>Contrast</q-item-label>
+                <q-item-label overline>对比度 Contrast</q-item-label>
                 <q-slider
                   v-model="Contrast"
                   :min="0"
@@ -73,7 +88,7 @@
             </q-item>
             <q-item>
               <q-item-section>
-                <q-item-label overline>Brightness</q-item-label>
+                <q-item-label overline>亮度 Brightness</q-item-label>
                 <q-slider
                   v-model="Brightness"
                   :min="0"
@@ -85,17 +100,17 @@
             </q-item>
             <q-item>
               <q-item-section>
-                <q-item-label overline>Log Scale</q-item-label>
+                <q-item-label overline>对数显示 Log Scale</q-item-label>
                 <q-toggle
                   v-model="log_scale"
                   @update:model-value="ajustImage"
                 />
               </q-item-section>
             </q-item>
-          </q-list>
+          </q-card-section>
         </q-card>
       </div>
-      <div class="col-10 q-pa-md" style="height: 100%">
+      <div class="col-9 q-pa-md viewer-column">
         <div class="column justify-center">
           <div class="col-6">
             <IPFSelect
@@ -286,3 +301,28 @@ watch(
   }
 );
 </script>
+
+<style scoped>
+.acom-viewer-workspace {
+  align-items: flex-start;
+}
+
+.controls-column,
+.viewer-column {
+  min-height: 0;
+}
+
+.sidebar {
+  height: auto;
+}
+
+.section-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.sidebar :deep(.q-field) {
+  margin-bottom: 12px;
+}
+</style>

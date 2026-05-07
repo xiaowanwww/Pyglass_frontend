@@ -1,130 +1,148 @@
 <template>
   <q-page class="q-pa-md">
-    <q-btn class="full-width q-mb-md" color="primary" @click="openFile">
-      <span v-if="selectedFile">Selected File: {{ selectedFile }}</span>
-      <span v-else>Import CIF</span>
-    </q-btn>
-    <div class="row" style="height: 80vh">
-      <div class="col-2 col-lg-2" style="height: 100%; overflow-y: auto">
-        <q-card class="full-height column">
-          <!-- Your existing input fields for settings -->
-          <q-input
-            v-model.number="resolution"
-            type="number"
-            filled
-            label="分辨率 Resolution"
-          />
-          <q-select
-            filled
-            v-model="crystal_system"
-            :options="options"
-            label="晶系 Crystal System"
-          />
-          <q-btn
-            no-caps
-            class="full-width q-mb-md"
-            color="primary"
-            @click="generate_grid"
-            >生成晶格 Generate Sample Grid
-          </q-btn>
-          <div class="text-subtitle2 q-mt-sm q-mb-xs">电子显微镜参数</div>
-          <q-input
-            v-model.number="accelerating_voltage"
-            type="number"
-            filled
-            label="Accelerating Voltage"
-            suffix="KV"
-          />
-          <!-- <q-splitter /> -->
-          <q-input
-            v-model.number="min_intensity"
-            type="number"
-            filled
-            label="Minimal Visible Intensity"
-          />
-          <q-input
-            v-model.number="image_size"
-            type="number"
-            filled
-            label="图像尺寸 Image Size"
-          />
-          <q-input
-            v-model.number="pixel_size"
-            type="number"
-            filled
-            label="Pixel Size"
-            suffix="A^-1"
-          />
-          <q-input
-            v-model.number="max_excitation_error"
-            type="number"
-            filled
-            label="Max Excitation Error"
-          />
+    <div class="row q-col-gutter-md sim-workspace">
+      <div class="col-3 controls-column">
+        <q-card class="sidebar">
+          <q-card-section>
+            <div class="section-title">结构文件 Structure</div>
+            <q-btn
+              no-caps
+              class="full-width q-mb-sm"
+              color="primary"
+              @click="openFile"
+            >
+              <span v-if="selectedFile">已选择 Selected: {{ selectedFile }}</span>
+              <span v-else>导入 CIF 结构 Import CIF</span>
+            </q-btn>
 
-          <q-btn
-            no-caps
-            class="full-width q-mb-md"
-            color="primary"
-            @click="simulate"
-            >模拟 Simulate
-          </q-btn>
-          <q-btn
-            no-caps
-            class="full-width q-mb-md"
-            color="primary"
-            @click="saveFile"
-            >保存模拟结果 Save Simulation
-          </q-btn>
-          <q-btn
-            no-caps
-            class="full-width q-mb-md"
-            color="primary"
-            @click="loadFile"
-            >加载模拟结果 Load Simulation
-          </q-btn>
-          <q-btn
-            no-caps
-            class="full-width q-mb-md"
-            color="primary"
-            @click="doMatching"
-            >Do Matching
-          </q-btn>
-          <q-btn
-            no-caps
-            class="full-width q-mb-md"
-            color="primary"
-            @click="saveResult"
-            >保存结果 Save Result
-          </q-btn>
+            <q-separator class="q-my-md" />
+
+            <div class="section-title">取向网格 Orientation Grid</div>
+            <q-select
+              filled
+              v-model="crystal_system"
+              :options="options"
+              label="晶系 Crystal System"
+            />
+            <q-input
+              v-model.number="resolution"
+              type="number"
+              filled
+              label="网格分辨率 Grid Resolution"
+            />
+            <q-btn
+              no-caps
+              class="full-width q-mb-sm"
+              color="primary"
+              @click="generate_grid"
+            >
+              生成取向网格 Generate Grid
+            </q-btn>
+
+            <q-separator class="q-my-md" />
+
+            <div class="section-title">模拟参数 Simulation Parameters</div>
+            <q-input
+              v-model.number="accelerating_voltage"
+              type="number"
+              filled
+              label="加速电压 Accelerating Voltage"
+              suffix="KV"
+            />
+            <q-input
+              v-model.number="min_intensity"
+              type="number"
+              filled
+              label="最小可见强度 Min Visible Intensity"
+            />
+            <q-input
+              v-model.number="image_size"
+              type="number"
+              filled
+              label="图像尺寸 Image Size"
+            />
+            <q-input
+              v-model.number="pixel_size"
+              type="number"
+              filled
+              label="像素尺寸 Pixel Size"
+              suffix="A^-1"
+            />
+            <q-input
+              v-model.number="max_excitation_error"
+              type="number"
+              filled
+              label="最大激发误差 Max Excitation Error"
+            />
+            <q-btn
+              no-caps
+              class="full-width q-mb-sm"
+              color="primary"
+              @click="simulate"
+            >
+              生成模拟库 Run Simulation
+            </q-btn>
+
+            <q-separator class="q-my-md" />
+
+            <div class="section-title">模拟库 Simulation Library</div>
+            <q-btn
+              no-caps
+              class="full-width q-mb-sm"
+              color="primary"
+              @click="loadFile"
+            >
+              加载模拟库 Load Simulation
+            </q-btn>
+            <q-btn
+              no-caps
+              class="full-width q-mb-sm"
+              color="primary"
+              @click="saveFile"
+            >
+              保存模拟库 Save Simulation
+            </q-btn>
+
+            <q-separator class="q-my-md" />
+
+            <div class="section-title">匹配 Matching</div>
+            <q-btn
+              no-caps
+              class="full-width q-mb-sm"
+              color="primary"
+              @click="doMatching"
+            >
+              运行模板匹配 Run Matching
+            </q-btn>
+            <q-btn
+              no-caps
+              class="full-width"
+              color="primary"
+              @click="saveResult"
+            >
+              保存匹配结果 Save Result
+            </q-btn>
+          </q-card-section>
         </q-card>
       </div>
-      <div class="col-5" style="height: 100%">
-        <div ref="gridChartContainer" style="height: 100%"></div>
+      <div class="col-4 chart-column">
+        <div ref="gridChartContainer" class="chart-surface"></div>
       </div>
-      <div class="col-5" style="height: 100%">
-        <!-- 添加滑块控制 -->
-        <q-card class="q-mb-sm">
+      <div class="col-5 chart-column">
+        <q-card class="spot-size-card q-mb-sm">
+          <div class="spot-size-title">
+            衍射点大小 Spot Size: {{ symbolSizeFactor.toFixed(1) }}
+          </div>
           <q-slider
             v-model="symbolSizeFactor"
             :min="0.1"
             :max="10"
             :step="0.1"
-            label-always
             class="q-pa-md"
-          >
-            <template v-slot:label>
-              Size Scale: {{ symbolSizeFactor.toFixed(1) }}
-            </template>
-          </q-slider>
+          />
         </q-card>
-        <div
-          ref="simulationChartContainer"
-          style="height: calc(100% - 72px)"
-        ></div>
+        <div ref="simulationChartContainer" class="simulation-chart"></div>
       </div>
-
-      <!-- Container for the chart -->
     </div>
   </q-page>
 </template>
@@ -443,3 +461,50 @@ onUnmounted(() => {
   }
 });
 </script>
+
+<style scoped>
+.sim-workspace {
+  align-items: flex-start;
+}
+
+.controls-column,
+.chart-column {
+  min-height: 0;
+}
+
+.sidebar {
+  height: auto;
+}
+
+.section-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.sidebar :deep(.q-field) {
+  margin-bottom: 12px;
+}
+
+.chart-column {
+  min-height: 680px;
+}
+
+.chart-surface {
+  height: 680px;
+}
+
+.simulation-chart {
+  height: 608px;
+}
+
+.spot-size-card {
+  padding: 12px 16px 4px;
+}
+
+.spot-size-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+</style>

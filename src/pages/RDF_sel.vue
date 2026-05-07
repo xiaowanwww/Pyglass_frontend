@@ -1,124 +1,131 @@
 <template>
   <q-page class="q-pa-md">
-    <q-btn class="full-width q-mb-md" color="secondary" @click="openFile">
-      <span v-if="selectedFile">Selected File: {{ selectedFile }}</span>
-      <span v-else>Open File</span>
-    </q-btn>
-    <div class="row q-col-gutter-md" style="height: 80vh">
+    <div class="row q-col-gutter-md upload-workspace">
       <!-- Left sidebar for sliders -->
-      <div class="col-3" style="height: 100%; overflow-y: auto">
-        <q-list bordered separator class="full-height">
-          <!-- Left Image Sliders -->
-          <div class="text-h6">左侧图像</div>
-          <q-item>
-            <q-item-section>
-              <q-item-label overline>Gamma</q-item-label>
-              <q-slider
-                v-model="leftGamma"
-                :min="0.1"
-                :max="2.5"
-                :step="0.05"
-                @update:model-value="ajustLeftImage"
-              />
-            </q-item-section>
-          </q-item>
-          <q-item>
-            <q-item-section>
-              <q-item-label overline>对比度</q-item-label>
-              <q-slider
-                v-model="leftContrast"
-                :min="0"
-                :max="5"
-                :step="0.1"
-                @update:model-value="ajustLeftImage"
-              />
-            </q-item-section>
-          </q-item>
-          <q-item>
-            <q-item-section>
-              <q-item-label overline>亮度</q-item-label>
-              <q-slider
-                v-model="leftBrightness"
-                :min="0"
-                :max="1"
-                :step="0.01"
-                @update:model-value="ajustLeftImage"
-              />
-            </q-item-section>
-          </q-item>
+      <div class="col-3 controls-column">
+        <q-card class="sidebar">
+          <q-card-section>
+            <q-btn
+              class="full-width q-mb-md open-file-btn"
+              color="primary"
+              @click="openFile"
+            >
+              <span v-if="selectedFile">Selected File: {{ selectedFile }}</span>
+              <span v-else>打开文件</span>
+            </q-btn>
 
-          <!-- Right Image Sliders -->
-          <div class="text-h6">右侧图像</div>
-          <q-item>
-            <q-item-section>
-              <q-item-label overline>Image Index</q-item-label>
-              <q-slider
-                v-model="rightImageIndex"
-                :min="0"
-                :max="indexRange"
-                @update:model-value="changeRightImage"
-              />
-            </q-item-section>
-          </q-item>
-          <q-item>
-            <q-item-section>
-              <q-item-label overline>Gamma</q-item-label>
-              <q-slider
-                v-model="rightGamma"
-                :min="0.1"
-                :max="2.5"
-                :step="0.05"
-                @update:model-value="ajustRightImage"
-              />
-            </q-item-section>
-          </q-item>
-          <q-item>
-            <q-item-section>
-              <q-item-label overline>对比度</q-item-label>
-              <q-slider
-                v-model="rightContrast"
-                :min="0"
-                :max="5"
-                :step="0.1"
-                @update:model-value="ajustRightImage"
-              />
-            </q-item-section>
-          </q-item>
-          <q-item>
-            <q-item-section>
-              <q-item-label overline>亮度</q-item-label>
-              <q-slider
-                v-model="rightBrightness"
-                :min="0"
-                :max="1"
-                :step="0.01"
-                @update:model-value="ajustRightImage"
-              />
-            </q-item-section>
-          </q-item>
-          <q-item>
-            <q-item-section>
-              <q-item-label overline>以对数刻度显示</q-item-label>
-              <q-toggle
-                v-model="log_scale"
-                @update:model-value="ajustRightImage"
-              />
-            </q-item-section>
-          </q-item>
-        </q-list>
+            <!-- Left Image Sliders -->
+            <div class="text-h6">左侧图像</div>
+            <q-item>
+              <q-item-section>
+                <q-item-label overline>Gamma</q-item-label>
+                <q-slider
+                  v-model="leftGamma"
+                  :min="0.1"
+                  :max="2.5"
+                  :step="0.05"
+                  @update:model-value="ajustLeftImage"
+                />
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                <q-item-label overline>对比度</q-item-label>
+                <q-slider
+                  v-model="leftContrast"
+                  :min="0"
+                  :max="5"
+                  :step="0.1"
+                  @update:model-value="ajustLeftImage"
+                />
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                <q-item-label overline>亮度</q-item-label>
+                <q-slider
+                  v-model="leftBrightness"
+                  :min="0"
+                  :max="1"
+                  :step="0.01"
+                  @update:model-value="ajustLeftImage"
+                />
+              </q-item-section>
+            </q-item>
+
+            <!-- Right Image Sliders -->
+            <div class="text-h6">右侧图像</div>
+            <q-item>
+              <q-item-section>
+                <q-item-label overline>Image Index</q-item-label>
+                <q-slider
+                  v-model="rightImageIndex"
+                  :min="0"
+                  :max="indexRange"
+                  @update:model-value="changeRightImage"
+                />
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                <q-item-label overline>Gamma</q-item-label>
+                <q-slider
+                  v-model="rightGamma"
+                  :min="0.1"
+                  :max="2.5"
+                  :step="0.05"
+                  @update:model-value="ajustRightImage"
+                />
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                <q-item-label overline>对比度</q-item-label>
+                <q-slider
+                  v-model="rightContrast"
+                  :min="0"
+                  :max="5"
+                  :step="0.1"
+                  @update:model-value="ajustRightImage"
+                />
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                <q-item-label overline>亮度</q-item-label>
+                <q-slider
+                  v-model="rightBrightness"
+                  :min="0"
+                  :max="1"
+                  :step="0.01"
+                  @update:model-value="ajustRightImage"
+                />
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                <q-item-label overline>以对数刻度显示</q-item-label>
+                <q-toggle
+                  v-model="log_scale"
+                  @update:model-value="ajustRightImage"
+                />
+              </q-item-section>
+            </q-item>
+          </q-card-section>
+        </q-card>
       </div>
 
       <!-- Right part for image display -->
-      <div class="col-9" style="height: 80vh">
-        <div class="flex row">
-          <q-card class="full-height flex flex-center col-6">
+      <div class="col-9 preview-column">
+        <div class="row image-preview-row">
+          <q-card class="preview-card flex flex-center col-6">
             <RDFSelect
               :mask_update_event="update_bin_mask"
               :image_base64_str="LeftimageData"
               :socket="socket"
             />
           </q-card>
-          <q-card class="full-height flex flex-center col-6">
+          <q-card class="preview-card flex flex-center col-6">
             <RDFSelect
               :mask_update_event="update_virtual_mask"
               :image_base64_str="RightimageData"
@@ -127,21 +134,19 @@
             />
           </q-card>
         </div>
-        <div class="q-mt-md">
-          <q-scroll-area style="height: calc(80vh - 250px)">
-            <div class="row">
-              <div
-                v-for="(image, index) in imageSeries"
-                :key="index"
-                class="q-mb-md col-4"
-              >
-                <q-img
-                  :src="`data:image/png;base64,${image}`"
-                  style="max-width: 100%; max-height: 100%"
-                />
-              </div>
+        <div class="q-mt-md image-series">
+          <div class="row">
+            <div
+              v-for="(image, index) in imageSeries"
+              :key="index"
+              class="q-mb-md col-4"
+            >
+              <q-img
+                :src="`data:image/png;base64,${image}`"
+                style="max-width: 100%; max-height: 100%"
+              />
             </div>
-          </q-scroll-area>
+          </div>
         </div>
       </div>
     </div>
@@ -297,6 +302,35 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.upload-workspace {
+  align-items: flex-start;
+}
+
+.controls-column,
+.preview-column {
+  min-height: 0;
+}
+
+.sidebar {
+  height: auto;
+}
+
+.open-file-btn {
+  min-height: 48px;
+}
+
+.image-preview-row {
+  min-height: 540px;
+}
+
+.preview-card {
+  min-height: 540px;
+}
+
+.image-series {
+  width: 100%;
+}
+
 .stage-wrapper {
   display: flex;
   justify-content: center;

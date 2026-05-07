@@ -10,14 +10,8 @@ const routes = [
       },
       {
         path: "rdf",
-        component: () => import("layouts/RDFLayout.vue"),
-        children: [
-          {
-            path: "",
-            name: "rdf_workflow_v2",
-            component: () => import("src/modules/rdf/pages/RdfWorkflowPage.vue"),
-          },
-        ],
+        name: "rdf_workflow_v2",
+        component: () => import("src/modules/rdf/pages/RdfWorkflowPage.vue"),
       },
       {
         path: "view",

@@ -424,7 +424,7 @@ function handleResize() {
 }
 
 .sidebar {
-  height: 80vh;
+  height: auto;
 }
 
 .image-card {
