@@ -4,10 +4,10 @@
     <div class="col-3 q-pr-md">
       <q-card class="sidebar">
         <q-card-section>
-          <h6 class="q-mt-lg q-mb-sm">Image Adjustments</h6>
+          <h6 class="q-mt-lg q-mb-sm">图像调整</h6>
           <div class="q-mt-md">
             <q-badge color="info">
-              Brightness: {{ brightness.toFixed(2) }} (-1 to 1)
+              亮度: {{ brightness.toFixed(2) }} (-1 to 1)
             </q-badge>
             <q-slider
               v-model="brightness"
@@ -31,7 +31,7 @@
           </div>
           <div class="q-mt-md">
             <q-badge color="purple">
-              Contrast: {{ contrast.toFixed(2) }} (0 to 5)
+              对比度: {{ contrast.toFixed(2) }} (0 to 5)
             </q-badge>
             <q-slider
               v-model="contrast"
@@ -44,7 +44,7 @@
 
           <q-separator />
 
-          <h6 class="q-my-sm">RDF Parameters</h6>
+          <h6 class="q-my-sm">RDF 参数</h6>
           <q-input
             v-model="qPerPixel"
             type="number"
@@ -54,7 +54,7 @@
           />
           <div class="q-mt-md">
             <q-badge color="primary">
-              Start Index: {{ startIndex }} (0 to {{ length }})
+              起始索引 start index: {{ startIndex }} (0 to {{ length }})
             </q-badge>
             <q-slider
               v-model="startIndex"
@@ -65,7 +65,7 @@
           </div>
           <div class="q-mt-md">
             <q-badge color="secondary">
-              End Index: {{ endIndex }} (0 to {{ length }})
+              结束索引 end index: {{ endIndex }} (0 to {{ length }})
             </q-badge>
             <q-slider
               v-model="endIndex"
@@ -76,7 +76,7 @@
           </div>
           <div class="q-mt-md">
             <q-badge color="accent">
-              Fit Threshold: {{ fitThreshold }}% (0 to 100)
+              拟合阈值 fit threshold: {{ fitThreshold }}% (0 to 100)
             </q-badge>
             <q-slider
               v-model="fitThreshold"

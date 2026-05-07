@@ -49,7 +49,7 @@
         </q-item>
       </q-list>
       <div v-else class="empty-state text-grey-5">
-        No elements selected.
+        尚未选择元素。
       </div>
     </q-scroll-area>
 
@@ -92,11 +92,11 @@ const elementsWithPercentage = ref([]);
 const saveState = ref("idle");
 
 const columns = [
-  { name: "symbol", label: "Element", field: "symbol", align: "left" },
-  { name: "quantity", label: "Quantity", field: "quantity", align: "center" },
+  { name: "symbol", label: "元素", field: "symbol", align: "left" },
+  { name: "quantity", label: "数量", field: "quantity", align: "center" },
   {
     name: "percentage",
-    label: "Percentage",
+    label: "占比",
     field: "percentage",
     align: "center",
   },

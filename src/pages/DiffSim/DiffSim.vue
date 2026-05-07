@@ -12,21 +12,22 @@
             v-model.number="resolution"
             type="number"
             filled
-            label="Resolution"
+            label="分辨率 Resolution"
           />
           <q-select
             filled
             v-model="crystal_system"
             :options="options"
-            label="Crystal System"
+            label="晶系 Crystal System"
           />
           <q-btn
             no-caps
             class="full-width q-mb-md"
             color="primary"
             @click="generate_grid"
-            >Generate Sample Grid
+            >生成晶格 Generate Sample Grid
           </q-btn>
+          <div class="text-subtitle2 q-mt-sm q-mb-xs">电子显微镜参数</div>
           <q-input
             v-model.number="accelerating_voltage"
             type="number"
@@ -45,7 +46,7 @@
             v-model.number="image_size"
             type="number"
             filled
-            label="Image Size"
+            label="图像尺寸 Image Size"
           />
           <q-input
             v-model.number="pixel_size"
@@ -66,21 +67,21 @@
             class="full-width q-mb-md"
             color="primary"
             @click="simulate"
-            >Simulate
+            >模拟 Simulate
           </q-btn>
           <q-btn
             no-caps
             class="full-width q-mb-md"
             color="primary"
             @click="saveFile"
-            >Save Simulation
+            >保存模拟结果 Save Simulation
           </q-btn>
           <q-btn
             no-caps
             class="full-width q-mb-md"
             color="primary"
             @click="loadFile"
-            >Load Simulation
+            >加载模拟结果 Load Simulation
           </q-btn>
           <q-btn
             no-caps
@@ -94,7 +95,7 @@
             class="full-width q-mb-md"
             color="primary"
             @click="saveResult"
-            >Save Result
+            >保存结果 Save Result
           </q-btn>
         </q-card>
       </div>
@@ -144,13 +145,13 @@ const image_size = ref(128);
 const pixel_size = ref(0.0338);
 const resolution = ref(10);
 const options = [
-  { label: "Cubic", value: "cubic" },
-  { label: "hexagonal", value: "hexagonal" },
-  { label: "trigonal", value: "trigonal" },
-  { label: "tetragonal", value: "tetragonal" },
-  { label: "orthorhombic", value: "orthorhombic" },
-  { label: "monoclinic", value: "monoclinic" },
-  { label: "triclinic", value: "triclinic" },
+  { label: "立方晶系 Cubic", value: "cubic" },
+  { label: "六方晶系 Hexagonal", value: "hexagonal" },
+  { label: "三方晶系 Trigonal", value: "trigonal" },
+  { label: "四方晶系 Tetragonal", value: "tetragonal" },
+  { label: "正交晶系 Orthorhombic", value: "orthorhombic" },
+  { label: "单斜晶系 Monoclinic", value: "monoclinic" },
+  { label: "三斜晶系 Triclinic", value: "triclinic" },
 ];
 const crystal_system = ref(null);
 const gridChartContainer = ref(null);
