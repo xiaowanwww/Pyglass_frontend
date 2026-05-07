@@ -46,14 +46,6 @@
               @click="nextStep"
             />
           </div>
-          <div class="col-auto">
-            <q-btn
-              color="secondary"
-              flat
-              label="回到主页"
-              :to="{ name: 'home' }"
-            />
-          </div>
         </div>
       </div>
     </q-page-sticky>
