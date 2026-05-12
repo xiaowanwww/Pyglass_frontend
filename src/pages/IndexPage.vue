@@ -7,8 +7,21 @@
       <div class="home-card">
         <div class="home-title">Pyglass</div>
         <div class="home-subtitle">
-          一个面向衍射图像分析与材料计算的前端工作台，支持 RDF、SIM 和 ACOM 相关流程。
-          你可以从主页进入各个功能模块，按步骤完成数据查看、参数调整和结果分析。
+          一个面向衍射图像分析与材料计算的工作台。
+        </div>
+        <div class="home-actions">
+          <q-btn
+            color="primary"
+            unelevated
+            label="进入RDF工作流"
+            :to="{ name: 'rdf_workflow_v2' }"
+          />
+          <q-btn
+            color="primary"
+            unelevated
+            label="进入ACOM工作流"
+            :to="{ name: 'acom_workflow' }"
+          />
         </div>
       </div>
     </div>
@@ -30,9 +43,10 @@ defineOptions({
   position: relative;
   overflow: hidden;
   background:
+    linear-gradient(rgba(8, 12, 18, 0.6), rgba(8, 12, 18, 0.78)),
     radial-gradient(circle at top left, rgba(0, 188, 212, 0.18), transparent 30%),
     radial-gradient(circle at bottom right, rgba(63, 81, 181, 0.2), transparent 28%),
-    linear-gradient(180deg, #0f141d 0%, #141a24 100%);
+    url("../assets/home_background.png") center / cover no-repeat;
 }
 
 .home-hero {
@@ -45,12 +59,7 @@ defineOptions({
   position: relative;
   z-index: 2;
   padding: 56px 36px;
-  border-radius: 28px;
   text-align: center;
-  background: rgba(10, 14, 20, 0.78);
-  border: 1px solid rgba(110, 126, 154, 0.28);
-  backdrop-filter: blur(18px);
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.38);
 }
 
 .home-title {
@@ -68,6 +77,20 @@ defineOptions({
   color: rgba(229, 236, 244, 0.82);
   font-size: 1.08rem;
   line-height: 1.9;
+}
+
+.home-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.home-actions :deep(.q-btn) {
+  min-width: 176px;
+  min-height: 46px;
+  font-size: 0.98rem;
 }
 
 .home-glow {
@@ -105,6 +128,10 @@ defineOptions({
   .home-subtitle {
     font-size: 1rem;
     line-height: 1.8;
+  }
+
+  .home-actions :deep(.q-btn) {
+    width: 100%;
   }
 }
 </style>

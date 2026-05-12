@@ -4,15 +4,15 @@
       <div class="col-3 controls-column">
         <q-card class="sidebar">
           <q-card-section>
-            <div class="section-title">数据来源 Data Sources</div>
+            <div class="section-title">数据来源</div>
             <q-btn
               no-caps
               class="full-width q-mb-sm"
               color="primary"
               @click="openData"
             >
-              <span v-if="selectedData">已选择 Selected: {{ selectedData }}</span>
-              <span v-else>使用当前实验数据 Use Loaded Data</span>
+              <span v-if="selectedData">已选择: {{ selectedData }}</span>
+              <span v-else>使用当前实验数据</span>
             </q-btn>
             <q-btn
               no-caps
@@ -21,9 +21,9 @@
               @click="openResults"
             >
               <span v-if="selectedResults"
-                >已选择结果 Selected Results: {{ selectedResults }}</span
+                >已选择结果: {{ selectedResults }}</span
               >
-              <span v-else>导入匹配结果 Import Results</span>
+              <span v-else>导入匹配结果</span>
             </q-btn>
             <q-btn
               no-caps
@@ -32,9 +32,9 @@
               @click="openSimulations"
             >
               <span v-if="selectedSimulations"
-                >已选择模拟库 Selected Simulations: {{ selectedSimulations }}</span
+                >已选择模拟库: {{ selectedSimulations }}</span
               >
-              <span v-else>导入模拟库 Import Simulations</span>
+              <span v-else>导入模拟库</span>
             </q-btn>
 
             <q-separator class="q-my-md" />
@@ -61,7 +61,7 @@
 
             <q-separator class="q-my-md" />
 
-            <div class="section-title">图像调整 Image Adjustments</div>
+            <div class="section-title">图像调整</div>
             <q-item>
               <q-item-section>
                 <q-item-label overline>Gamma</q-item-label>
@@ -76,7 +76,7 @@
             </q-item>
             <q-item>
               <q-item-section>
-                <q-item-label overline>对比度 Contrast</q-item-label>
+                <q-item-label overline>对比度</q-item-label>
                 <q-slider
                   v-model="Contrast"
                   :min="0"
@@ -88,7 +88,7 @@
             </q-item>
             <q-item>
               <q-item-section>
-                <q-item-label overline>亮度 Brightness</q-item-label>
+                <q-item-label overline>亮度</q-item-label>
                 <q-slider
                   v-model="Brightness"
                   :min="0"
@@ -100,7 +100,7 @@
             </q-item>
             <q-item>
               <q-item-section>
-                <q-item-label overline>对数显示 Log Scale</q-item-label>
+                <q-item-label overline>以对数刻度显示</q-item-label>
                 <q-toggle
                   v-model="log_scale"
                   @update:model-value="ajustImage"

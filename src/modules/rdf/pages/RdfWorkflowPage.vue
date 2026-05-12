@@ -4,7 +4,7 @@
       v-model="activeStep"
       dense
       no-caps
-      class="bg-grey-10 text-white rounded-borders"
+      class="workflow-tabs text-white rounded-borders"
       active-color="cyan-4"
       indicator-color="cyan-4"
       align="left"
@@ -83,6 +83,21 @@ defineOptions({
 <style scoped>
 .workflow-page {
   padding-bottom: 88px;
+}
+
+.workflow-tabs {
+  background:
+    linear-gradient(135deg, rgba(15, 45, 82, 0.98), rgba(4, 18, 39, 0.98)),
+    #071426;
+  border: 1px solid rgba(96, 165, 250, 0.28);
+  box-shadow: 0 10px 30px rgba(0, 12, 28, 0.28);
+  overflow: hidden;
+}
+
+.workflow-tabs :deep(.q-tabs__content) {
+  background:
+    linear-gradient(135deg, rgba(15, 45, 82, 0.98), rgba(4, 18, 39, 0.98)),
+    #071426;
 }
 
 .footer-actions {

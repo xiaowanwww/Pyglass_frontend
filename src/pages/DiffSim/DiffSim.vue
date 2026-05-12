@@ -11,8 +11,8 @@
               color="primary"
               @click="openFile"
             >
-              <span v-if="selectedFile">已选择 Selected: {{ selectedFile }}</span>
-              <span v-else>导入 CIF 结构 Import CIF</span>
+              <span v-if="selectedFile">已选择: {{ selectedFile }}</span>
+              <span v-else>导入 CIF 结构</span>
             </q-btn>
 
             <q-separator class="q-my-md" />
@@ -41,7 +41,7 @@
 
             <q-separator class="q-my-md" />
 
-            <div class="section-title">模拟参数 Simulation Parameters</div>
+            <div class="section-title">模拟参数</div>
             <q-input
               v-model.number="accelerating_voltage"
               type="number"
@@ -80,19 +80,19 @@
               color="primary"
               @click="simulate"
             >
-              生成模拟库 Run Simulation
+              生成模拟库
             </q-btn>
 
             <q-separator class="q-my-md" />
 
-            <div class="section-title">模拟库 Simulation Library</div>
+            <div class="section-title">模拟库</div>
             <q-btn
               no-caps
               class="full-width q-mb-sm"
               color="primary"
               @click="loadFile"
             >
-              加载模拟库 Load Simulation
+              加载模拟库
             </q-btn>
             <q-btn
               no-caps
@@ -100,7 +100,7 @@
               color="primary"
               @click="saveFile"
             >
-              保存模拟库 Save Simulation
+              保存模拟库
             </q-btn>
 
             <q-separator class="q-my-md" />
@@ -120,7 +120,7 @@
               color="primary"
               @click="saveResult"
             >
-              保存匹配结果 Save Result
+              保存匹配结果
             </q-btn>
           </q-card-section>
         </q-card>
