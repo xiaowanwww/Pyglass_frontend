@@ -10,12 +10,12 @@
               color="primary"
               @click="openFile"
             >
-              <span v-if="selectedFile">Selected File: {{ selectedFile }}</span>
+              <span v-if="selectedFile">已选择文件 Selected File: {{ selectedFile }}</span>
               <span v-else>打开文件</span>
             </q-btn>
 
             <!-- Left Image Sliders -->
-            <div class="text-h6">Left Image</div>
+            <div class="text-h6">左侧图像</div>
             <q-item>
               <q-item-section>
                 <q-item-label overline>Gamma</q-item-label>
@@ -30,7 +30,7 @@
             </q-item>
             <q-item>
               <q-item-section>
-                <q-item-label overline>Contrast</q-item-label>
+                <q-item-label overline>对比度</q-item-label>
                 <q-slider
                   v-model="leftContrast"
                   :min="0"
@@ -42,7 +42,7 @@
             </q-item>
             <q-item>
               <q-item-section>
-                <q-item-label overline>Brightness</q-item-label>
+                <q-item-label overline>亮度</q-item-label>
                 <q-slider
                   v-model="leftBrightness"
                   :min="0"
@@ -54,7 +54,7 @@
             </q-item>
 
             <!-- Right Image Sliders -->
-            <div class="text-h6">Right Image</div>
+            <div class="text-h6">右侧图像</div>
             <q-item>
               <q-item-section>
                 <q-item-label overline>Image Index</q-item-label>
@@ -80,7 +80,7 @@
             </q-item>
             <q-item>
               <q-item-section>
-                <q-item-label overline>Contrast</q-item-label>
+                <q-item-label overline>对比度</q-item-label>
                 <q-slider
                   v-model="rightContrast"
                   :min="0"
@@ -92,7 +92,7 @@
             </q-item>
             <q-item>
               <q-item-section>
-                <q-item-label overline>Brightness</q-item-label>
+                <q-item-label overline>亮度</q-item-label>
                 <q-slider
                   v-model="rightBrightness"
                   :min="0"
@@ -104,7 +104,7 @@
             </q-item>
             <q-item>
               <q-item-section>
-                <q-item-label overline>Log Scale</q-item-label>
+                <q-item-label overline>以对数刻度显示</q-item-label>
                 <q-toggle
                   v-model="log_scale"
                   @update:model-value="ajustRightImage"

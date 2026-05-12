@@ -9,9 +9,9 @@
       indicator-color="cyan-4"
       align="left"
     >
-      <q-tab name="upload" label="1. 上传与预处理" />
+      <q-tab name="upload" label="1. 数据加载" />
       <q-tab name="elements" label="2. 元素与占比" />
-      <q-tab name="compute" label="3. 计算与预览" />
+      <q-tab name="compute" label="3. 计算与结果" />
     </q-tabs>
 
     <q-tab-panels v-model="activeStep" animated class="q-mt-md bg-transparent">

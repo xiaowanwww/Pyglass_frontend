@@ -2,12 +2,9 @@
   <section>
     <q-card flat bordered class="q-mb-md bg-blue-grey-10">
       <q-card-section>
-        <div class="text-h6">第 1 步：上传数据与预处理</div>
+        <div class="text-h6">第 1 步：数据加载</div>
         <div class="text-subtitle2 q-mt-sm text-grey-4">
-          目标：上传 DM4 文件，调整左右图像参数并选择掩膜区域。
-        </div>
-        <div class="text-body2 q-mt-sm text-grey-5">
-          输入要求：建议先在 View 模块确认数据可读，再回到本步骤完成选区。
+          提示：打开实验 4D-STEM 数据文件，检查左右图像显示，并根据需要调整图像参数。
         </div>
       </q-card-section>
     </q-card>

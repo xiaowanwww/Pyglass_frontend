@@ -41,16 +41,6 @@ const routes = [
           },
         ],
       },
-      {
-        path: "sim",
-        name: "DiffSim",
-        component: () => import("pages/DiffSim/DiffSim.vue"),
-      },
-      {
-        path: "xem",
-        name: "AcomViewer",
-        component: () => import("pages/ACOM_XEM/ACOM_Viewer.vue"),
-      },
     ],
   },
 
