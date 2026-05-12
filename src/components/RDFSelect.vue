@@ -69,7 +69,6 @@ onMounted(() => {
       }
     } else {
       // Normal drawing
-      selectionLayer.value.removeChildren();
       isDrawing = true;
       color = getRandomColor();
       selection = new Konva.Rect({

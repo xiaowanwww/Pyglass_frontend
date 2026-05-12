@@ -178,6 +178,20 @@ const socket = socketViewer;
 const log_scale = ref(false);
 const imageSeries = ref([]);
 const isDrawingEnabled = ref(false);
+const previewMaskSize = 512;
+
+const requestMeanVirtualImage = () => {
+  const emptyMask = Array.from({ length: previewMaskSize }, () =>
+    Array(previewMaskSize).fill(0)
+  );
+
+  socket.emit("update_virtual_mask", {
+    mask: emptyMask,
+    all_selections: [],
+    width: previewMaskSize,
+    height: previewMaskSize,
+  });
+};
 
 const openFile = async () => {
   if (!window.myAPI || typeof window.myAPI.openFileDialog !== "function") {
@@ -272,6 +286,7 @@ const handleFileNameResponse = (data) => {
       timeout: 1000,
     });
     indexRange.value = data.index_range - 1;
+    requestMeanVirtualImage();
     socket.emit("set_index", { index: rightImageIndex.value });
     socketRDF.emit("load_image_rdf", true);
   }
