@@ -6,6 +6,9 @@
         <div class="text-subtitle2 q-mt-sm text-grey-4">
           提示：打开实验 4D-STEM 数据文件，检查左右图像显示，并根据需要调整图像参数。
         </div>
+        <div class="text-subtitle2 q-mt-sm text-grey-4">
+          提示：建议打开“以对数刻度显示”。
+        </div>
       </q-card-section>
     </q-card>
 
