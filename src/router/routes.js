@@ -9,6 +9,16 @@ const routes = [
         component: () => import("pages/IndexPage.vue"),
       },
       {
+        path: "preprocess",
+        name: "data_preprocess",
+        component: () => import("pages/DataPreprocessPage.vue"),
+      },
+      {
+        path: "cif-elements",
+        name: "cif_elements",
+        component: () => import("pages/CifElementsPage.vue"),
+      },
+      {
         path: "rdf",
         name: "rdf_workflow_v2",
         component: () => import("src/modules/rdf/pages/RdfWorkflowPage.vue"),

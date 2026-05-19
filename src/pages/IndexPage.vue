@@ -13,15 +13,13 @@
           <q-btn
             color="primary"
             unelevated
-            label="进入RDF工作流"
-            :to="{ name: 'rdf_workflow_v2' }"
+            label="打开文件"
+            :loading="isUploading"
+            @click="openFile"
           />
-          <q-btn
-            color="primary"
-            unelevated
-            label="进入ACOM工作流"
-            :to="{ name: 'acom_workflow' }"
-          />
+        </div>
+        <div v-if="selectedFile" class="home-file">
+          当前文件：{{ selectedFile }}
         </div>
       </div>
     </div>
@@ -29,6 +27,74 @@
 </template>
 
 <script setup>
+import { onMounted, onUnmounted, ref } from "vue";
+import { useQuasar } from "quasar";
+import { socketRDF, socketViewer } from "boot/socketio";
+
+const $q = useQuasar();
+const selectedFile = ref("");
+const isUploading = ref(false);
+const socket = socketViewer;
+
+const openFile = async () => {
+  if (!window.myAPI || typeof window.myAPI.openFileDialog !== "function") {
+    $q.notify({
+      message:
+        "当前为网页模式，无法调用系统文件对话框。请使用 Electron 模式运行。",
+      color: "warning",
+      icon: "warning",
+      position: "center",
+      timeout: 2000,
+    });
+    return;
+  }
+
+  try {
+    const filePaths = await window.myAPI.openFileDialog();
+    if (filePaths && filePaths.length > 0) {
+      selectedFile.value = filePaths[0];
+      isUploading.value = true;
+      $q.loading.show();
+      socket.emit("upload_dm4", selectedFile.value);
+    }
+  } catch (error) {
+    console.error("Failed to open file dialog:", error);
+    isUploading.value = false;
+    $q.loading.hide();
+    $q.notify({
+      message: "打开文件对话框失败，请重试。",
+      color: "negative",
+      icon: "error",
+      position: "center",
+      timeout: 1500,
+    });
+  }
+};
+
+const handleFileNameResponse = (data) => {
+  isUploading.value = false;
+  $q.loading.hide();
+
+  if (data.success) {
+    socketRDF.emit("load_image_rdf", true);
+    $q.notify({
+      message: "文件已加载，将用于后续步骤。",
+      color: "primary",
+      icon: "cloud_done",
+      position: "center",
+      timeout: 1200,
+    });
+  }
+};
+
+onMounted(() => {
+  socket.on("file_name_response", handleFileNameResponse);
+});
+
+onUnmounted(() => {
+  socket.off("file_name_response", handleFileNameResponse);
+});
+
 defineOptions({
   name: "IndexPage",
 });
@@ -91,6 +157,16 @@ defineOptions({
   min-width: 176px;
   min-height: 46px;
   font-size: 0.98rem;
+}
+
+.home-file {
+  max-width: 760px;
+  margin: 16px auto 0;
+  color: rgba(229, 236, 244, 0.86);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
 }
 
 .home-glow {
